@@ -2,6 +2,7 @@
 
 githooks are hook commands to prevent unexpected git operation.
 
-## Reference
+## Configuration
 
-- [8.3 Customizing Git - Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
+- `githooks.init=<bool>`: Initialization flag.
+- `githooks.disabled=<bool>`: Disable all custom hooks in this repository.

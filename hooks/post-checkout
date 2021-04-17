@@ -1,0 +1,32 @@
+#!/bin/sh -eu
+
+# Arguments:
+# post-checkout <PREV_HEAD_REF> <NEW_HEAD_REF> <CHECKOUT_FLAG>
+#
+# CHECKOUT_FLAG:
+# - 0: file checkout
+# - 1: branch checkout
+#
+# Trigger:
+# After `git checkout`, `git switch` and `git clone/worktree add` without `--no-checkout` flag.
+#
+# Examples:
+# Setup environment like document generation and dependency installation.
+
+# exit if not a branch change
+[[ $3 != 1 ]] && exit 0
+
+disabled=$(git config --get githooks.disabled)
+[ "$disabled" == "true" ] && exit 0
+
+init=$(git config --get githooks.init)
+if [ "$disabled" != "true" ]; then
+    # TODO: initialize repository git config
+    :
+fi
+
+# fetch remote changes
+git fetch origin $2 > /dev/null 2>&1 &
+
+# go mod vendor
+[[ -f go.mod ]] && go mod vendor &
