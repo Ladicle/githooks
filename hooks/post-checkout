@@ -20,9 +20,10 @@ disabled=$(git config --get githooks.disabled)
 [ "$disabled" == "true" ] && exit 0
 
 init=$(git config --get githooks.init)
-if [ "$disabled" != "true" ]; then
-    # TODO: initialize repository git config
-    :
+if [ "$init" != "true" ]; then
+    initializeScript=$(git config --get githooks.initRepoScript)
+    [[ -n "$initializeScript" ]] && initializeScript='~/.gitinit_repository'
+    git config --local githooks.init true
 fi
 
 # fetch remote changes
